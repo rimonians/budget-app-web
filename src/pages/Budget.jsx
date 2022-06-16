@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
+import Loading from "../components/Shared/Loading";
 import BudgetHeader from "../components/Budget/BudgetHeader";
 import BudgetStat from "../components/Budget/BudgetStat";
 import BudgetFilter from "../components/Budget/BudgetFilter";
@@ -6,13 +8,9 @@ import BudgetInfo from "../components/Budget/BudgetInfo";
 import BudgetCreateModal from "../components/Budget/BudgetCreateModal";
 import BudgetUpdateModal from "../components/Budget/BudgetUpdateModal";
 import BudgetDeleteModal from "../components/Budget/BudgetDeleteModal";
-import useBudgets from "../hooks/useBudgets";
-import Loading from "../components/Shared/Loading";
 
 const Budget = () => {
-  const { loading } = useBudgets();
-
-  const [trackedBudget, setTrackedBudget] = useState(null);
+  const { loading } = useSelector((state) => state.budget);
 
   if (loading) {
     return <Loading />;
@@ -23,16 +21,10 @@ const Budget = () => {
       <BudgetHeader />
       <BudgetStat />
       <BudgetFilter />
-      <BudgetInfo setTrackedBudget={setTrackedBudget} />
+      <BudgetInfo />
       <BudgetCreateModal />
-      <BudgetUpdateModal
-        trackedBudget={trackedBudget}
-        setTrackedBudget={setTrackedBudget}
-      />
-      <BudgetDeleteModal
-        trackedBudget={trackedBudget}
-        setTrackedBudget={setTrackedBudget}
-      />
+      <BudgetUpdateModal />
+      <BudgetDeleteModal />
     </div>
   );
 };

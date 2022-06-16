@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
-import useBudgets from "../../hooks/useBudgets";
-import usePaginate from "../../hooks/usePaginate";
+import { useSelector, useDispatch } from "react-redux";
+import { trackBudget } from "../../redux/features/Budget/budgetSlice";
 import ReactPaginate from "react-paginate";
 
-const BudgetInfo = ({ setTrackedBudget }) => {
-  const { copyBudgets } = useBudgets();
+const BudgetInfo = () => {
+  const { budgets } = useSelector((state) => state.budget);
 
-  const { currentItems, pageCount, handlePageClick } = usePaginate(
-    copyBudgets,
-    5
-  );
+  // Responsible for pagination
+  const [currentItems, setCurrentItems] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
 
-  if (!copyBudgets.length) return null;
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(budgets.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(budgets.length / itemsPerPage));
+  }, [itemOffset, budgets]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % budgets.length;
+    setItemOffset(newOffset);
+  };
+
+  if (!budgets.length) return null;
 
   return (
     <>
@@ -31,12 +43,7 @@ const BudgetInfo = ({ setTrackedBudget }) => {
           <tbody>
             {currentItems &&
               currentItems.map((budget, index) => (
-                <TableItem
-                  key={budget._id}
-                  budget={budget}
-                  index={index}
-                  setTrackedBudget={setTrackedBudget}
-                />
+                <TableItem key={budget._id} budget={budget} index={index} />
               ))}
           </tbody>
         </table>
@@ -60,7 +67,9 @@ const BudgetInfo = ({ setTrackedBudget }) => {
   );
 };
 
-const TableItem = ({ budget, index, setTrackedBudget }) => {
+const TableItem = ({ budget, index }) => {
+  const dispatch = useDispatch();
+
   return (
     <tr className="text-center">
       <td>{index + 1}</td>
@@ -78,7 +87,7 @@ const TableItem = ({ budget, index, setTrackedBudget }) => {
       <td>
         <label
           htmlFor="budgetUpdateModal"
-          onClick={() => setTrackedBudget(budget)}
+          onClick={() => dispatch(trackBudget(budget))}
         >
           <IoCreateOutline
             className="text-primary m-auto cursor-pointer"
@@ -89,7 +98,7 @@ const TableItem = ({ budget, index, setTrackedBudget }) => {
       <td>
         <label
           htmlFor="budgetDeleteModal"
-          onClick={() => setTrackedBudget(budget)}
+          onClick={() => dispatch(trackBudget(budget))}
         >
           <IoTrashOutline className="text-error m-auto cursor-pointer" />
         </label>

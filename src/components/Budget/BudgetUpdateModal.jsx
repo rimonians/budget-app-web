@@ -7,21 +7,24 @@ import MyForm, {
   FormButton,
 } from "../Shared/MyForm";
 import { validationSchema } from "../../validations/BudgetUpdate";
-import useBudgets from "../../hooks/useBudgets";
+import { useSelector, useDispatch } from "react-redux";
+import { updateBudget } from "../../redux/features/Budget/budgetSlice";
 
-const BudgetUpdateModal = ({ trackedBudget, setTrackedBudget }) => {
-  const { updateBudget } = useBudgets();
+const BudgetUpdateModal = () => {
+  const { token } = useSelector((state) => state.auth);
+  const { tracked } = useSelector((state) => state.budget);
+  const dispatch = useDispatch();
 
-  if (!trackedBudget) return null;
-  const { _id, title, type, amount } = trackedBudget;
+  if (!tracked) return null;
+  const { _id, title, type, amount } = tracked;
 
   return (
-    <Modal modalId="budgetUpdateModal" setTrackedBudget={setTrackedBudget}>
+    <Modal modalId="budgetUpdateModal">
       <MyForm
         initialValues={{ title, type, amount }}
         validationSchema={validationSchema}
         onSubmit={(values, actions) =>
-          updateBudget(values, actions, _id, setTrackedBudget)
+          dispatch(updateBudget({ values, actions, _id, token }))
         }
       >
         {/* Form heading */}

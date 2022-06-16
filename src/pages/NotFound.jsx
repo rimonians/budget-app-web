@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 const NotFound = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <div className={`hero ${isAuthenticated ? "h-full" : "h-screen"}`}>
@@ -16,12 +16,12 @@ const NotFound = () => {
             a id nisi.
           </p>
           {isAuthenticated && (
-            <Link to="/" className="btn btn-secondary">
+            <Link to="/" className="btn btn-primary">
               Back to home
             </Link>
           )}
           {!isAuthenticated && (
-            <Link to="/signin" className="btn btn-secondary">
+            <Link to="/signin" className="btn btn-primary">
               Signin first
             </Link>
           )}

@@ -1,11 +1,11 @@
 import React from "react";
-import useUser from "../../hooks/useUser";
+import { useSelector } from "react-redux";
 import avatar from "../../assets/img/avatar.png";
 import { IoIosCloudUpload } from "react-icons/io";
 import { profileImagePath } from "../../api/client";
 
 const ProfileHeader = () => {
-  const { user } = useUser();
+  const { user } = useSelector((state) => state.user);
 
   return (
     <div className="flex flex-col items-center space-y-4">

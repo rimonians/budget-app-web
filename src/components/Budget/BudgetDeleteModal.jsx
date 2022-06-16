@@ -1,15 +1,18 @@
 import React from "react";
 import Modal from "../Shared/Modal";
-import useBudgets from "../../hooks/useBudgets";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteBudget } from "../../redux/features/Budget/budgetSlice";
 
-const BudgetDeleteModal = ({ trackedBudget, setTrackedBudget }) => {
-  const { deleteBudget } = useBudgets();
+const BudgetDeleteModal = () => {
+  const { token } = useSelector((state) => state.auth);
+  const { tracked } = useSelector((state) => state.budget);
+  const dispatch = useDispatch();
 
-  if (!trackedBudget) return null;
-  const { _id } = trackedBudget;
+  if (!tracked) return null;
+  const { _id } = tracked;
 
   return (
-    <Modal modalId="budgetDeleteModal" setTrackedBudget={setTrackedBudget}>
+    <Modal modalId="budgetDeleteModal">
       <div className="flex flex-col gap-4">
         <p className="text-3xl text-primary font-bold">Are you sure?</p>
         <p className="text-sm text-secondary">
@@ -19,7 +22,7 @@ const BudgetDeleteModal = ({ trackedBudget, setTrackedBudget }) => {
         <div>
           <button
             className="btn btn-primary"
-            onClick={() => deleteBudget(_id, setTrackedBudget)}
+            onClick={() => dispatch(deleteBudget({ _id, token }))}
           >
             Delete
           </button>

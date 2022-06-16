@@ -2,16 +2,20 @@ import React from "react";
 import Modal from "../Shared/Modal";
 import MyForm, { FormHeading, FormButton } from "../Shared/MyForm";
 import { Field } from "formik";
-import useUser from "../../hooks/useUser";
+import { useSelector, useDispatch } from "react-redux";
+import { updateProfileImage } from "../../redux/features/User/userSlice";
 
 const ProfileImageUpdateModal = () => {
-  const { updateProfileImage } = useUser();
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   return (
     <Modal modalId="profileImageUpdateModal">
       <MyForm
         initialValues={{ profileImage: "" }}
-        onSubmit={(values, actions) => updateProfileImage(values, actions)}
+        onSubmit={(values, actions) =>
+          dispatch(updateProfileImage({ values, actions, token }))
+        }
       >
         {/* Form heading */}
         <FormHeading title="Update profile image" slogan="It's easy & free" />

@@ -1,9 +1,9 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 const PrivateOutlet = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/signin" />;
 };

@@ -1,10 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useUser from "../hooks/useUser";
 import Loading from "../components/Shared/Loading";
 
 const Home = () => {
-  const { loading, user } = useUser();
+  const { loading, user } = useSelector((state) => state.user);
 
   if (loading) {
     return <Loading />;

@@ -1,9 +1,9 @@
 import React from "react";
-import useUser from "../../hooks/useUser";
+import { useSelector } from "react-redux";
 import { IoDuplicateOutline } from "react-icons/io5";
 
 const BudgetHeader = () => {
-  const { user } = useUser();
+  const { user } = useSelector((state) => state.user);
 
   return (
     <div className="flex justify-between items-center">

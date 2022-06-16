@@ -10,10 +10,14 @@ import {
   initialValues,
   validationSchema,
 } from "../../validations/ProfileInfoUpdate";
-import useUser from "../../hooks/useUser";
+import { useSelector, useDispatch } from "react-redux";
+import { updateProfileInfo } from "../../redux/features/User/userSlice";
 
 const ProfileInfoUpdateModal = () => {
-  const { user, updateProfileInfo } = useUser();
+  const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const { bio, dateOfBirth, gender, address, mobile } = user;
 
   return (
@@ -21,7 +25,9 @@ const ProfileInfoUpdateModal = () => {
       <MyForm
         initialValues={initialValues(bio, dateOfBirth, gender, address, mobile)}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => updateProfileInfo(values, actions)}
+        onSubmit={(values, actions) =>
+          dispatch(updateProfileInfo({ values, actions, token }))
+        }
       >
         {/* Form heading */}
         <FormHeading title="Update information" slogan="It's easy & free" />

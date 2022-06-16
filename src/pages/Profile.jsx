@@ -1,13 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import Loading from "../components/Shared/Loading";
 import ProfileHeader from "../components/Profile/ProfileHeader";
 import ProfileInfo from "../components/Profile/ProfileInfo";
-import useUser from "../hooks/useUser";
-import Loading from "../components/Shared/Loading";
 import ProfileImageUpdateModal from "../components/Profile/ProfileImageUpdateModal";
 import ProfileInfoUpdateModal from "../components/Profile/ProfileInfoUpdateModal";
 
 const Profile = () => {
-  const { loading } = useUser();
+  const { loading } = useSelector((state) => state.user);
 
   if (loading) {
     return <Loading />;

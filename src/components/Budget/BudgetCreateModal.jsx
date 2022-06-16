@@ -10,17 +10,21 @@ import {
   initialValues,
   validationSchema,
 } from "../../validations/BudgetCreate";
-import useBudgets from "../../hooks/useBudgets";
+import { useDispatch, useSelector } from "react-redux";
+import { createBudget } from "../../redux/features/Budget/budgetSlice";
 
 const BudgetCreateModal = () => {
-  const { createBudget } = useBudgets();
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   return (
     <Modal modalId="budgetCreateModal">
       <MyForm
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values, actions) => createBudget(values, actions)}
+        onSubmit={(values, actions) =>
+          dispatch(createBudget({ values, actions, token }))
+        }
       >
         {/* Form heading */}
         <FormHeading title="Create budgets" slogan="It's easy & free" />

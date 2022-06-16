@@ -1,15 +1,15 @@
 import React from "react";
 import { FaCircle } from "react-icons/fa";
-import useAuth from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
 
 const Loading = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <div className={`hero ${isAuthenticated ? "h-full" : "h-screen"}`}>
       <div className="hero-content text-center">
         <div className="max-w-md flex flex-col items-center">
-          <FaCircle className="text-3xl text-secondary" />
+          <FaCircle className="text-3xl text-primary" />
           <p className="py-2">Please wait a bit</p>
         </div>
       </div>

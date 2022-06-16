@@ -6,8 +6,8 @@
 * {
   font-family: "Ubuntu", charulota, sans-serif;
   letter-spacing: 1px;
+  user-select: none;
 }
-/* width */
 ::-webkit-scrollbar {
   width: 0px;
 }

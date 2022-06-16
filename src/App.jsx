@@ -10,18 +10,22 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import Loading from "./components/Shared/Loading";
-import { useDispatch } from "react-redux";
-import { authInitiate } from "./redux/features/auth/authSlice";
-import { fetchUser } from "./redux/features/user/userSlice";
-import { fetchBudgets } from "./redux/features/budgets/budgetsSlice";
-import useAuth from "./hooks/useAuth";
+import { useSelector, useDispatch } from "react-redux";
+import { authInitiate } from "./redux/features/Auth/authSlice";
+import { fetchUser } from "./redux/features/User/userSlice";
+import { fetchBudgets } from "./redux/features/Budget/budgetSlice";
 
 const App = () => {
+  const { loading, isAuthenticated, token } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
-  const { loading, isAuthenticated, token } = useAuth();
 
   useEffect(() => {
     dispatch(authInitiate());
+  }, []);
+
+  useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchUser(token));
       dispatch(fetchBudgets(token));

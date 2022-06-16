@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   IoCreateOutline,
   IoPersonOutline,
@@ -9,7 +10,6 @@ import {
   IoMailOpenOutline,
   IoArchiveOutline,
 } from "react-icons/io5";
-import useUser from "../../hooks/useUser";
 
 const ProfileInfo = () => (
   <div>
@@ -28,7 +28,8 @@ const ProfileInfoHeading = () => (
 );
 
 const ProfileInfoDetails = () => {
-  const { user } = useUser();
+  const { user } = useSelector((state) => state.user);
+  
   return (
     <>
       {user && (

@@ -21,7 +21,13 @@ export const FormHeading = ({ title, slogan }) => (
   </div>
 );
 
-export const FormControll = ({ name, type, placeholder }) => {
+export const FormControll = ({
+  iconLeft,
+  iconRight,
+  name,
+  type,
+  placeholder,
+}) => {
   return (
     <div className="flex flex-col gap-2">
       <Field name={name}>
@@ -30,18 +36,22 @@ export const FormControll = ({ name, type, placeholder }) => {
             <label htmlFor={props.field.name} className="capitalize">
               {props.field.name}
             </label>
-            <input
-              type={type}
-              name={props.field.name}
-              id={props.field.name}
-              placeholder={placeholder}
-              autoComplete="off"
-              spellCheck="false"
-              value={props.field.value}
-              onChange={props.field.onChange}
-              onBlur={props.field.onBlur}
-              className="input input-bordered w-full"
-            />
+            <div className="flex items-center input input-bordered focus-within:outline focus-within:outline-2 focus-within:outline-primary focus-within:outline-offset-2">
+              {iconLeft && iconLeft}
+              <input
+                type={type}
+                name={props.field.name}
+                id={props.field.name}
+                placeholder={placeholder}
+                autoComplete="off"
+                spellCheck="false"
+                value={props.field.value}
+                onChange={props.field.onChange}
+                onBlur={props.field.onBlur}
+                className="h-full flex-1 outline-none bg-transparent"
+              />
+              {iconRight && iconRight}
+            </div>
             {props.meta.touched && props.meta.error && (
               <p className="text-error text-sm">{props.meta.error}</p>
             )}
@@ -84,9 +94,19 @@ export const FormSelect = ({ name, options }) => {
 
 export const FormButton = ({ title }) => (
   <div>
-    <button type="submit" className="btn btn-primary w-full">
-      {title}
-    </button>
+    <Field name="">
+      {(props) => {
+        return (
+          <button
+            type="submit"
+            className="btn btn-primary w-full"
+            disabled={props.form.isSubmitting}
+          >
+            {title}
+          </button>
+        );
+      }}
+    </Field>
   </div>
 );
 

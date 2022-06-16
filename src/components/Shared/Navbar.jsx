@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import avatar from "../../assets/img/avatar.png";
-import useAuth from "../../hooks/useAuth";
-import useUser from "../../hooks/useUser";
 import { profileImagePath } from "../../api/client";
+import { useSelector, useDispatch } from "react-redux";
+import { signout } from "../../redux/features/Auth/authSlice";
 
 const Navbar = () => {
-  const { signOut } = useAuth();
-  const { user } = useUser();
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   return (
     <div className="navbar bg-base-100 shadow-sm shadow-gray-200">
@@ -42,7 +42,7 @@ const Navbar = () => {
               <Link to="/budget">Budget</Link>
             </li>
             <li>
-              <button onClick={signOut}>Logout</button>
+              <button onClick={() => dispatch(signout())}>Logout</button>
             </li>
           </ul>
         </div>

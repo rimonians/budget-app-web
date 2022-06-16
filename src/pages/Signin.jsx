@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MyForm, {
   FormHeading,
   FormControll,
@@ -6,31 +6,55 @@ import MyForm, {
   FormLink,
 } from "../components/Shared/MyForm";
 import { initialValues, validationSchema } from "../validations/Signin";
-import useAuth from "../hooks/useAuth";
+import {
+  IoMailOpenOutline,
+  IoLockOpenOutline,
+  IoEyeOutline,
+  IoEyeOffOutline,
+} from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { signin } from "../redux/features/Auth/authSlice";
 
 const Signin = () => {
-  const { signIn } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const dispatch = useDispatch();
 
   return (
     <div className="min-h-screen w-full grid place-items-center">
-      <div className="w-[95%] sm:w-[400px]  shadow-md shadow-gray-300 p-8 rounded-lg">
+      <div className="w-[95%] sm:w-[400px]  shadow-md shadow-dark p-8 rounded-lg">
         <MyForm
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, actions) => signIn(values, actions)}
+          onSubmit={(values, actions) => dispatch(signin({ values, actions }))}
         >
           {/* Form heading */}
           <FormHeading title="Signin Form" slogan="It's easy & free" />
           {/* Form controll for email */}
           <FormControll
+            iconLeft={<IoMailOpenOutline className="mr-4" />}
             name="email"
             type="text"
             placeholder="Enter your email address"
           />
           {/* Form controll for password */}
           <FormControll
+            iconLeft={<IoLockOpenOutline className="mr-4" />}
+            iconRight={
+              showPassword ? (
+                <IoEyeOutline
+                  className="ml-4 cursor-pointer"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <IoEyeOffOutline
+                  className="ml-4 cursor-pointer"
+                  onClick={() => setShowPassword(true)}
+                />
+              )
+            }
             name="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
           />
 

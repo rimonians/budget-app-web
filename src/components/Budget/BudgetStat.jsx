@@ -1,18 +1,18 @@
 import React from "react";
-import useBudgets from "../../hooks/useBudgets";
+import { useSelector } from "react-redux";
 import { GiReceiveMoney, GiPayMoney, GiMoneyStack } from "react-icons/gi";
 
 const BudgetStat = () => {
-  const { budgets } = useBudgets();
+  const { budgetsSafe } = useSelector((state) => state.budget);
 
-  const income = budgets.reduce((acc, cur) => {
+  const income = budgetsSafe.reduce((acc, cur) => {
     if (cur.type === "income") {
       return acc + cur.amount;
     }
     return acc;
   }, 0);
 
-  const expense = budgets.reduce((acc, cur) => {
+  const expense = budgetsSafe.reduce((acc, cur) => {
     if (cur.type === "expense") {
       return acc + cur.amount;
     }
